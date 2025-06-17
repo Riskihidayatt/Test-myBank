@@ -1,19 +1,14 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+# Gunakan base image Java 17
+FROM openjdk:17-jdk-slim
 
+# Tambahkan label untuk metadata
+LABEL maintainer="namamu@email.com"
+
+# Set direktori kerja di dalam container
 WORKDIR /app
 
-COPY pom.xml .
+# Copy jar file hasil build ke container
+COPY target/*.jar app.jar
 
-RUN mvn dependency:go-offline
-
-COPY src ./src
-
-RUN mvn package -DskipTests
-
-FROM eclipse-temurin:21-jre-jammy
-
-WORKDIR /app
-
-COPY --from=builder /app/target/*.jar app.jar
-
+# Jalankan aplikasi
 ENTRYPOINT ["java", "-jar", "app.jar"]
