@@ -1,9 +1,5 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.8.5-openjdk-17'
-    }
-  }
+  agent any
 
   environment {
     IMAGE_NAME = 'riski191203/mybank'
